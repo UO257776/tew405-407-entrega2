@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/template-general.xhtml">
+
+	<ui:define name="titulo">
+      #{msgs.tituloHead}
+    </ui:define>
+
+	<ui:define name="cuerpo">
+	<p:growl id="mensajes" showDetail="false"></p:growl>
+		<h2>#{msgs.registrarCliente}</h2>
+		<h:form id="form-cliente">
+			<ui:include src="/snippets/form-cliente.xhtml" />
+		</h:form>
+		
+		<br/>
+		
+		<h2>#{msgs.iniciarSesion}</h2>
+		<h:form id="form-login">
+			<ui:include src="/snippets/form-login.xhtml" />
+		</h:form>
+	</ui:define>
+
+	<ui:define name="pie">
+	</ui:define>
+
+</ui:composition>
+

@@ -1,0 +1,26 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	
+	<p:column>
+		<f:facet name="header">#{msgs.pisoDireccion}</f:facet>#{vpiso.direccion}</p:column>
+	<p:column>
+		<!--  <f:facet name="header">#{msgs.pisoCiudad}</f:facet>#{vpiso.ciudad}</p:column>-->
+		<f:facet name="header">#{msgs.pisoCiudad}</f:facet>
+		<p:cellEditor>
+            <f:facet name="output"><h:outputText value="#{vpiso.ciudad}" /></f:facet>
+            <f:facet name="input"><p:inputText value="#{vpiso.ciudad}" style="width:96%"/></f:facet>
+        </p:cellEditor>
+    </p:column>
+	<p:column>
+		<f:facet name="header">#{msgs.pisoPrecio}</f:facet>#{vpiso.precio}</p:column>
+	<p:column>
+		<f:facet name="header">#{msgs.pisoAño}</f:facet>#{vpiso.año}</p:column>
+	<p:column>
+		<f:facet name="header">#{msgs.pisoEstado}</f:facet>#{vpiso.estado}</p:column>
+		
+
+</ui:composition>

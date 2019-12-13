@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<h:panelGrid id="Grid" columns="2" cellpadding="5">
+  #{msgs.nombre} 
+  <h:panelGroup>
+			<p:inputText value="#{inicio.cliente.nombre}" required="true"
+				requiredMessage="#{msgs.formCliente_nombre_requiredMessage}"
+				validatorMessage="#{msgs.formCliente_nombre_validatorMessage}"
+				id="nombre">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+			<p:message for="nombre" />
+		</h:panelGroup>
+  
+  #{msgs.apellidos} 
+  <h:panelGroup>
+			<p:inputText value="#{inicio.cliente.apellidos}" required="true"
+				requiredMessage="#{msgs.formCliente_apellidos_requiredMessage}"
+				validatorMessage="#{msgs.formCliente_apellidos_validatorMessage}"
+				id="apellidos">
+				<f:validateLength maximum="40" />
+			</p:inputText>
+			<p:message for="apellidos" />
+		</h:panelGroup>
+
+  #{msgs.correo}
+  <h:panelGroup>
+			<p:inputText value="#{inicio.cliente.email}" required="true"
+				requiredMessage="#{msgs.formCliente_correo_requiredMessage}"
+				validatorMessage="#{msgs.formCliente_correo_validatorMessage}"
+				id="correo">
+				<f:validateRegex pattern=".+@.+\.[a-z]+" />
+			</p:inputText>
+			<p:message for="correo" />
+		</h:panelGroup>
+		
+  #{msgs.password}
+  <h:panelGroup>
+			<p:password value="#{inicio.cliente.passwd}" required="true"  feedback="false"
+				requiredMessage="#{msgs.formCliente_password_requiredMessage}"
+				validatorMessage="#{msgs.formCliente_password_validatorMessage}"
+				id="pwd">
+				<f:validateLength minimum="8" maximum="50" />
+			</p:password>
+			<p:message for="pwd" />
+		</h:panelGroup>
+   
+ #{msgs.confirmPassword}
+  <h:panelGroup>
+			<p:password value="#{inicio.confirm}" required="true"  feedback="false"
+				requiredMessage="#{msgs.formCliente_confirmPassword_requiredMessage}"
+				id="confirmPwd">
+				
+			</p:password>
+			<p:message for="confirmPwd" />
+		</h:panelGroup> 
+		<p:selectBooleanCheckbox id="checkPrivacidad" itemLabel="#{msgs.politicaPrivacidad}" required="true" value="#{inicio.acuerdo}" >
+		</p:selectBooleanCheckbox>
+		
+		<h:commandButton value="#{msgs.botonSalvar}"
+			action="#{inicio.salva}" update="Grid">
+		</h:commandButton>
+	</h:panelGrid>
+</ui:composition>

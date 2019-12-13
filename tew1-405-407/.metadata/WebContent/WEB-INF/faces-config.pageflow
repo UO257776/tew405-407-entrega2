@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14468168361820" configfile="/tew1-405-407/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="230" y="180" id="pf15727811849003" referenceLink="//@navigationRule.6/@navigationCase.1/@toViewId|" outlinks="pf15727811849004 pf15727811849005" inlinks="pf157279457163110" path="index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="restricted/opcionesAgente.xhtml" x="383" y="312" id="pf15727811849006" referenceLink="//@navigationRule.5/@navigationCase.1/@toViewId|" outlinks="pf157281853069314 pf157289601699026" inlinks="pf15727811849004 pf157286306677422 pf157286306677423" path="/agente/opcionesAgente.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="restricted/opcionesCliente.xhtml" x="384" y="48" id="pf15727811849007" referenceLink="//@navigationRule.3/@navigationCase.1/@toViewId|" outlinks="pf157281853069315" inlinks="pf15727811849005 pf157286306677424" path="/cliente/opcionesCliente.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="*" x="237" y="336" id="pf157279457163111" referenceLink="//@navigationRule.6/@fromViewId|" outlinks="pf157279457163112 pf157279457163110" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="faces/error.xhtml" x="84" y="336" id="pf157279457163113" referenceLink="//@navigationRule.6/@navigationCase.0/@toViewId|" inlinks="pf157279457163112" path="error.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="restricted/consultaPisosAgente.xhtml" x="672" y="312" id="pf157281853069316" referenceLink="//@navigationRule.4/@fromViewId|" outlinks="pf157281853069317 pf157286306677422 pf15730489303740" inlinks="pf157281853069314 pf157281853069317 pf157286064006520" path="/agente/consultaPisosAgente.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="restricted/consultaPisosCliente.xhtml" x="744" y="48" id="pf157281853069318" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf157281853069319 pf157286306677424" inlinks="pf157281853069315 pf157281853069319" path="/cliente/consultaPisosCliente.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="restricted/altaPisosAgente.xhtml" x="540" y="144" id="pf157286064006521" referenceLink="//@navigationRule.4/@navigationCase.1/@toViewId|" outlinks="pf157286064006520 pf157286306677423" inlinks="pf157289601699026 pf15730489303740" path="/agente/altaPisosAgente.xhtml"/>
+  <links id="pf15727811849004" target="pf15727811849006" source="pf15727811849003" outcome="agente"/>
+  <links id="pf15727811849005" target="pf15727811849007" source="pf15727811849003" outcome="cliente"/>
+  <links id="pf157279457163112" target="pf157279457163113" source="pf157279457163111" outcome="error"/>
+  <links id="pf157279457163110" target="pf15727811849003" source="pf157279457163111" outcome="close"/>
+  <links id="pf157281853069314" target="pf157281853069316" source="pf15727811849006" outcome="exitoListaPisos"/>
+  <links id="pf157281853069315" target="pf157281853069318" source="pf15727811849007" outcome="exitoListaPisos"/>
+  <links id="pf157286064006520" target="pf157281853069316" source="pf157286064006521" outcome="exitoListaPisos"/>
+  <links id="pf157286306677424" target="pf15727811849007" source="pf157281853069318" outcome="home"/>
+  <links id="pf157286306677422" target="pf15727811849006" source="pf157281853069316" outcome="home"/>
+  <links id="pf157286306677423" target="pf15727811849006" source="pf157286064006521" outcome="home"/>
+  <links id="pf157281853069319" target="pf157281853069318" source="pf157281853069318" outcome="exitoListaPisos">
+    <bendPoints d1Height="-36" d2Height="-36"/>
+    <bendPoints d1Width="-64" d1Height="-36" d2Width="-64" d2Height="-36"/>
+    <bendPoints d1Width="-64" d2Width="-64"/>
+  </links>
+  <links id="pf157281853069317" target="pf157281853069316" source="pf157281853069316" outcome="exitoListaPisos">
+    <bendPoints d1Width="169" d1Height="-67" d2Width="169" d2Height="-67"/>
+    <bendPoints d1Width="168" d1Height="-4" d2Width="168" d2Height="-4"/>
+  </links>
+  <links id="pf157289601699026" target="pf157286064006521" source="pf15727811849006" outcome="altaPisosAgente"/>
+  <links id="pf15730489303740" target="pf157286064006521" source="pf157281853069316" outcome="altaPisosAgente"/>
+</pageflow:Pageflow>

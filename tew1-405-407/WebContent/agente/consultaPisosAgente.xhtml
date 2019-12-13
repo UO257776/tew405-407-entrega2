@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/template-general.xhtml">
+
+	<ui:define name="titulo">
+      #{msgs.tituloOperacionListado}
+    </ui:define>
+
+	<ui:define name="cuerpo">
+
+		<h:form id="listado-pisos">
+		<p:growl id="growlMsg" showDetail="true"/>
+
+				
+			<p:dataTable id="listadoPisos" var="vpiso" value="#{pisos.pisos}" editable="true" editMode="cell" widgetVar="cellPisos" borter="1=">
+        		<f:facet name="header"></f:facet>
+        		<p:ajax event="cellEdit" listener="#{pisos.onCellEdit}" update="listado-pisos:growlMsg" />
+				<ui:include src="/snippets/listado-pisos.xhtml" />
+				<p:column>
+					<f:facet name="header">#{msgs.enlaceBaja}</f:facet>
+					<p:commandLink action="#{pisos.baja(vpiso)}" type="submit"
+						value="#{msgs.enlaceBaja}" immediate="true" update="listadoPisos">
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+
+	</ui:define>
+
+	<ui:define name="pie">
+		<ui:include src="/snippets/pie-casa.xhtml" />
+	</ui:define>
+
+</ui:composition>
+

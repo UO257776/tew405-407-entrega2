@@ -1,0 +1,78 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/template-general.xhtml">
+
+	<ui:define name="titulo">
+    #{msgs.tituloOperacionAlta}
+  </ui:define>
+
+	<ui:define name="cuerpo">
+		<h2>#{msgs.tituloOperacionAlta}</h2>
+		<h:form id="form-principal">
+			<h:panelGrid id="Grid" columns="2" cellpadding="5">
+  #{msgs.pisoDireccion} 
+  <h:panelGroup>
+					<p:inputText value="#{pisos.piso.direccion}" required="true"
+						requiredMessage="#{msgs.formAlta_direccion_requiredMessage}"
+						validatorMessage="#{msgs.formAlta_direccion_validatorMessage}"
+						id="direccion">
+						<f:validateLength minimum="10" maximum="80" />
+					</p:inputText>
+					<p:message for="direccion" />
+				</h:panelGroup>
+  
+  #{msgs.pisoCiudad} 
+  <h:panelGroup>
+					<p:inputText value="#{pisos.piso.ciudad}" required="true"
+						requiredMessage="#{msgs.formAlta_ciudad_requiredMessage}"
+						validatorMessage="#{msgs.formAlta_ciudad_validatorMessage}"
+						id="ciudad">
+						<f:validateLength maximum="20" />
+					</p:inputText>
+					<p:message for="ciudad" />
+				</h:panelGroup>
+  
+  #{msgs.pisoPrecio}
+  <h:panelGroup>
+					<p:inputText value="#{pisos.piso.precio}" required="true"
+						requiredMessage="#{msgs.formAlta_precio_requiredMessage}"
+						validatorMessage="#{msgs.formAlta_precio_validatorMessage}"
+						id="precio">
+						<f:validateLongRange minimum="1000"/>
+					</p:inputText>
+					<p:message for="precio" />
+				</h:panelGroup>  
+  
+  #{msgs.pisoAño}
+  <h:panelGroup>
+					<p:inputText value="#{pisos.piso.año}" required="true"
+						requiredMessage="#{msgs.formAlta_año_requiredMessage}"
+						validatorMessage="#{msgs.formAlta_año_validatorMessage}" id="año">
+						<f:validateLongRange maximum="2019"/>
+					</p:inputText>
+					<p:message for="año" />
+				</h:panelGroup>
+  #{msgs.pisoEstado}					
+  <h:panelGroup>
+					<p:selectOneMenu id="estado" value="#{pisos.piso.estado}">
+						<f:selectItem itemLabel="1" itemValue="1" />
+						<f:selectItem itemLabel="2" itemValue="2" />
+						<f:selectItem itemLabel="3" itemValue="3" />
+						<f:selectItem itemLabel="4" itemValue="4" />
+						<f:selectItem itemLabel="5" itemValue="5" />
+					</p:selectOneMenu>
+				</h:panelGroup>
+				<p:commandButton value="#{msgs.botonSalvarUno}"
+					action="#{pisos.salva}" update="Grid" process="@form">
+				</p:commandButton>
+			</h:panelGrid>
+		</h:form>
+
+	</ui:define>
+	<ui:define name="pie">
+		<ui:include src="/snippets/pie-casa.xhtml" />
+	</ui:define>
+</ui:composition>
