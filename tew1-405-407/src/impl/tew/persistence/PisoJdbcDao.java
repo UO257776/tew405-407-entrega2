@@ -46,6 +46,7 @@ public class PisoJdbcDao implements PisoDao {
 				piso.setCiudad(rs.getString("Ciudad"));
 				piso.setAño(rs.getInt("Año"));
 				piso.setEstado(rs.getInt("Estado"));
+				piso.setFoto(rs.getString("Foto"));
 				
 				pisos.add(piso);
 			}
@@ -82,8 +83,8 @@ public class PisoJdbcDao implements PisoDao {
 			Class.forName(SQL_DRV);
 			con = DriverManager.getConnection(SQL_URL, "sa", "");
 			ps = con.prepareStatement(
-					"insert into pisos (idagente, precio, direccion, ciudad, año, estado) " +
-					"values (?, ?, ?, ?, ?, ?)");
+					"insert into pisos (idagente, precio, direccion, ciudad, año, estado, foto) " +
+					"values (?, ?, ?, ?, ?, ?, ?)");
 			
 			ps.setLong(1, a.getIdagente());
 			ps.setDouble(2, a.getPrecio());
@@ -91,6 +92,7 @@ public class PisoJdbcDao implements PisoDao {
 			ps.setString(4, a.getCiudad());
 			ps.setInt(5, a.getAño());
 			ps.setInt(6, a.getEstado());
+			ps.setString(7, a.getFoto());
 
 			rows = ps.executeUpdate();
 			if (rows != 1) {
@@ -129,7 +131,7 @@ public class PisoJdbcDao implements PisoDao {
 			con = DriverManager.getConnection(SQL_URL, "sa", "");
 			ps = con.prepareStatement(
 					"update pisos " +
-					"set idagente = ?, precio = ?, direccion = ?, ciudad = ?, año = ?, estado = ?" +
+					"set idagente = ?, precio = ?, direccion = ?, ciudad = ?, año = ?, estado = ?, foto = ?" +
 					"where id = ?");
 			
 			ps.setLong(1, a.getIdagente());
@@ -138,7 +140,8 @@ public class PisoJdbcDao implements PisoDao {
 			ps.setString(4, a.getCiudad());
 			ps.setInt(5, a.getAño());
 			ps.setInt(6, a.getEstado());
-			ps.setLong(7, a.getId());
+			ps.setString(7, a.getFoto());
+			ps.setLong(8, a.getId());
 
 			rows = ps.executeUpdate();
 			if (rows != 1) {
@@ -229,6 +232,7 @@ public class PisoJdbcDao implements PisoDao {
 				piso.setCiudad(rs.getString("Ciudad"));
 				piso.setAño(rs.getInt("Año"));
 				piso.setEstado(rs.getInt("Estado"));
+				piso.setFoto(rs.getString("Foto"));
 			}
 			
 		} catch (ClassNotFoundException e) {

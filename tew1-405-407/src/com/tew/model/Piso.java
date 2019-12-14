@@ -15,11 +15,12 @@ public class Piso implements Serializable {
 	private String ciudad;
 	private int año;
 	private int estado;
+	private String foto;
 		
 	public Piso() {
 	}
 	
-	public Piso(long id, long idagente, double precio, String direccion, String ciudad, int año, int estado) {
+	public Piso(long id, long idagente, double precio, String direccion, String ciudad, int año, int estado, String foto) {
 		this.id = id;
 		this.idagente = idagente;
 		this.precio = precio;
@@ -27,6 +28,7 @@ public class Piso implements Serializable {
 		this.ciudad = ciudad;
 		this.año = año;
 		this.estado = estado;
+		this.foto = foto;
 	}
 	
 	@XmlElement
@@ -77,6 +79,13 @@ public class Piso implements Serializable {
 	}
 	public void setEstado(int estado) {
 		this.estado = estado;
+	}
+	@XmlElement
+	public String getFoto() {
+		return foto;
+	}
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}	
 	
 }
