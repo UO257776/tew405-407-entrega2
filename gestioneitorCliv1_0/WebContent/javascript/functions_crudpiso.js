@@ -33,7 +33,7 @@ function Model() {
 	// Eliminación un piso existente
 	this.remove = function(id_piso) {
 		// Llamamos al servicio de borrado de piso
-		PisoServicesRs.deletePiso({
+		PisosServicesRs.deletePiso({
 			id : id_piso
 		});
 		// Recargamos la lista de pisos.
@@ -155,6 +155,49 @@ function Controller(varmodel, varview) {
 			that.view.list(that.model.tbPisos);
 			that.bindHover();
 		});
+		
+		$("#btnReset").on("click", function(event) {
+			var pisos = that.model.tbPisos;
+			var i = pisos.length;
+			i--;
+			for (i ; i >= 0; i--) {
+				that.model.remove(pisos[i].id)
+			}
+			var agentes = AgentesServicesRs.getAgentes();
+			var i = agentes.length;
+			i--;
+			for ( i ; i >= 0; i--) {
+				console.log(agentes[0].id)
+				AgentesServicesRs.deleteAgente({
+					id : agentes[i].id
+				});
+			}
+			
+			var agente1 = new Object();
+			agente1.login = "agente1";
+			agente1.passwd = "clave1";
+			
+			var agente2 = new Object();
+			agente2.login = "agente2";
+			agente2.passwd = "clave2";
+			
+			var stringAgente1 = JSON.stringify(agente1);
+			var stringAgente2 = JSON.stringify(agente2);
+			
+			AgentesServicesRs.saveAgente({
+				$entity : stringAgente1,
+				$contentType : "application/json"
+			});
+			
+			AgentesServicesRs.saveAgente({
+				$entity : stringAgente2,
+				$contentType : "application/json"
+			});
+			
+			that.model.load();
+			that.view.list(that.model.tbPisos);
+			that.bindHover();
+		});
 
 	}
 	
@@ -163,7 +206,6 @@ function Controller(varmodel, varview) {
 		//Tiene su propia función porque hay que llamarlo después de pulsar cada botón
 		$("tr").not(':first').hover(function() {
 			var nombreFoto = that.model.find(that.view.getIdPiso($(this))).foto;
-			console.log(foto);
 			var foto = new Image();
 			foto.src = nombreFoto
 			var canvas = $("#foto");
