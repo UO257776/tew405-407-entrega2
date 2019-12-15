@@ -5,7 +5,6 @@ function Model() {
 
 	// Carga los datos del servicio sobreescribiendo el dato this.tbPisos.
 	this.load = function() {
-		console.log("b")
 		this.tbPisos = PisosServicesRs.getPisos();
 	}
 
@@ -118,6 +117,25 @@ function Controller(varmodel, varview) {
 			// para
 			// editar
 			that.view.loadPisoInForm(piso);
+		});
+		
+		//Controlador del botón de filtrado por ciudad
+		$("#frmFiltrado").on("submit", function(event) {
+			that.model.load();
+			var lista = that.model.tbPisos;
+			var cadena = $("#filtroCiudad").val();	
+			console.log(cadena);
+			if (cadena!="") {
+				var i = lista.length-1;
+				while (i >= 0) {
+					if(!lista[i].ciudad.includes(cadena)) {
+						lista.splice(i,1);
+					}
+					i--;
+				}			
+				that.model.tbPisos = lista;
+			}
+			that.view.list(that.model.tbPisos);
 		});
 
 		$("#tblList").on("click", ".btnReset", function(event) {
