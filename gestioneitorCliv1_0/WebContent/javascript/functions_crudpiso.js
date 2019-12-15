@@ -51,13 +51,13 @@ function Model() {
 	}
 };
 
-//Clase que contiene la gestión de la capa Vista
+// Clase que contiene la gestión de la capa Vista
 function View() {
 	this.list = function(lista) {
 		$("#tblList").html("");
 		$("#tblList").html(
-				"<thead>" + "<tr>" + "<th></th>" + "<th>ID</th>"
-						+ "<th>Precio</th>" + "<th>Dirección</th>"
+				"<thead>" + "<tr>" + "<th>ID</th>"
+						+ "<th>Precio</th>" + "<th>Direccion</th>"
 						+ "<th>Ciudad</th>" + "<th>Estado</th>" + "</tr>"
 						+ "</thead>" + "<tbody>" + "</tbody>");
 		for ( var i in lista) {
@@ -65,9 +65,7 @@ function View() {
 			$("#tblList tbody")
 					.append(
 							"<tr> <td>"
-									+ "<img src='icons/edit.png' class='btnEdit'/>"
-									+ "<img src='icons/delete.png' class='btnDelete'/> </td>"
-									+ "<td>" + piso.id + "</td>" + "<td>"
+									+ piso.id + "</td>" + "<td>"
 									+ piso.precio + "</td>" + "<td>"
 									+ piso.direccion + "</td>" + "<td>"
 									+ piso.ciudad + "</td>" + "<td>"
@@ -104,43 +102,61 @@ function Controller(varmodel, varview) {
 		// Repintamos la lista de alumnos.
 		this.view.list(this.model.tbPisos);
 
-		// Manejador del enlace de edición de un alumno en la tabla
-		$("#tblList").on("click", ".btnEdit",
-		// Método que gestiona el evento de clickar en el evento
-		function(event) {
-			// Obtenemos el id del alumno seleccionado mediante el icono de
-			// edición
-			var id_piso = that.view.getIdPiso($(this));
-			// Obtenemos el alumno con el id_alumno
-			var piso = that.model.find(id_piso);
-			// Cargamos el formulario con los datos del alumno seleccionado
-			// para
-			// editar
-			that.view.loadPisoInForm(piso);
-		});
-		
-		//Controlador del botón de filtrado por ciudad
+		// Controlador del botón de filtrado por ciudad
 		$("#frmFiltrado").on("submit", function(event) {
 			that.model.load();
 			var lista = that.model.tbPisos;
-			var cadena = $("#filtroCiudad").val();	
-			console.log(cadena);
-			if (cadena!="") {
-				var i = lista.length-1;
+			var cadena = $("#filtroCiudad").val();
+			if (cadena != "") {
+				var i = lista.length - 1;
 				while (i >= 0) {
-					if(!lista[i].ciudad.includes(cadena)) {
-						lista.splice(i,1);
+					if (!lista[i].ciudad.includes(cadena)) {
+						lista.splice(i, 1);
 					}
 					i--;
-				}			
+				}
 				that.model.tbPisos = lista;
 			}
 			that.view.list(that.model.tbPisos);
 		});
 
-		$("#tblList").on("click", ".btnReset", function(event) {
-			that.view.list();
+		$("#frmOrden").on("submit", function(event) {
+			var ascendente = $("#precioAscendente").is(':checked');
+			console.log(ascendente);
+			var lista = that.model.tbPisos;
+			if (ascendente) {
+				for ( var i in lista) {
+					var j = i;
+					j ++;
+					while (j < lista.length) {
+						console.log(lista[i].precio + " " + lista[j].precio);
+						if (lista[i].precio > lista[j].precio) {
+							console.log("SWAP");
+							var temp = lista[i];
+							lista[i] = lista[j];
+							lista[j] = temp;
+						}
+						j++;
+					}
+				}
+			} else {
+				for ( var i in lista) {
+					var j = i;
+					j++;
+					while (j < lista.length) {
+						if (lista[i].precio < lista[j].precio) {
+							var temp = lista[i];
+							lista[i] = lista[j];
+							lista[j] = temp;
+						}
+						j++;
+					}
+				}
+			}
+			that.model.tbPisos = lista;
+			that.view.list(that.model.tbPisos);
 		});
+
 	}
 };
 
