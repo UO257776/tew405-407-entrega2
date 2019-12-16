@@ -55,10 +55,10 @@ function Controller(varmodel, varview) {
 						sessionStorage.setItem("passwd", password);
 						window.location.href = "index.html";
 					}
-					
-					
 				}
 				i++;
+			} if (notfound) {
+				alert("El usuario y/o la contraseña introducidos son incorrectos.");
 			}
 			console.log("Fin While");
 		});
