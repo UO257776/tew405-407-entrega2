@@ -35,12 +35,14 @@ function Controller(varmodel, varview) {
 			var user = $("#username").val();
 			var password = $("#passwd").val();
 			console.log("Submit");
-			that.model.mLogin(user, password);
+			//that.model.mLogin(user, password);
 			console.log("Metodo");
 
 			var lista = that.model.lAgentes;
+			console.log("Lista");
 			var i;
 			var notfound = true;
+			console.log("Inicio While");
 			while ( i < lista.length && notfound) {
 				console.log(user);
 				console.log(lista[i].login);
@@ -49,13 +51,14 @@ function Controller(varmodel, varview) {
 					console.log("ENCONTRADO");
 					notfound = false;
 					if(typeof(Storage) !== "undefined") {
-						sesssionStorage.setItem("user", user);
-						sesssionStorage.setItem("passwd", password);
+						sessionStorage.setItem("user", user);
+						sessionStorage.setItem("passwd", password);
 					}
 					
 				}
 				i++;
 			}
+			console.log("Fin While");
 		});
 	}
 }
