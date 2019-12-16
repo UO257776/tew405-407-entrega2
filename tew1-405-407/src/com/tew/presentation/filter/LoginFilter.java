@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebFilter(
 		dispatcherTypes = {DispatcherType.REQUEST }, 
-		urlPatterns = { "/restricted/*" }, 
+		//urlPatterns = { "/restricted/*" }, 
 		initParams = { 
 				@WebInitParam(name = "LoginParam", value = "/index.xhtml", description = "Pagina de inicio")
 		})
