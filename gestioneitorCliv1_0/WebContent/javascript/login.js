@@ -48,6 +48,11 @@ function Controller(varmodel, varview) {
 				if (lista[i].login == user && lista[i].passwd == password) {
 					console.log("ENCONTRADO");
 					notfound = false;
+					if(typeof(Storage) !== "undefined") {
+						sesssionStorage.setItem("user", user);
+						sesssionStorage.setItem("passwd", password);
+					}
+					
 				}
 				i++;
 			}
