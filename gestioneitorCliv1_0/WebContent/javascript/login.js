@@ -40,7 +40,7 @@ function Controller(varmodel, varview) {
 
 			var lista = that.model.lAgentes;
 			console.log("Lista");
-			var i;
+			var i=0;
 			var notfound = true;
 			console.log("Inicio While");
 			while ( i < lista.length && notfound) {
