@@ -57,7 +57,7 @@ public class LoginFilter implements Filter {
 	    	//res.sendRedirect(req.getContextPath() + loginForm);
 	    //} else {
 			// pass the request along the filter chain
-			//chain.doFilter(request, response);
+			chain.doFilter(request, response);
 	    //}
 	    
 	    //String usuario = request.getParameter("user");
