@@ -6,13 +6,13 @@ function Model() {
 		if(typeof(Storage) !== "undefined") {
 			if(sessionStorage.getItem("user") == null) {
 				console.log("No user");
-				this.getElementById("login-link").style.visibility = "visible";
-				this.getElementById("logout-link").style.visibility = "hidden";
+				document.getElementById("login-link").style.visibility = "visible";
+				document.getElementById("logout-link").style.visibility = "hidden";
 			}
 			else {
 				console.log("With user");
-				this.getElementById("login-link").style.visibility = "hidden";
-				this.getElementById("logout-link").style.visibility = "visible";
+				document.getElementById("login-link").style.visibility = "hidden";
+				document.getElementById("logout-link").style.visibility = "visible";
 			}
 		}
 	}
@@ -41,6 +41,22 @@ function Controller(varmodel, varview) {
 			if(typeof(Storage) !== "undefined") {
 					sessionStorage.clear();
 					console.log("Datos de usuario borrados del navegador");
+			}
+		});
+		
+		$("#altaPiso").click(function (event) {	
+			if(typeof(Storage) !== "undefined") {
+					console.log("Acceso alta - user");
+					console.log(sessionStorage.getItem("user"));
+					if(sessionStorage.getItem("user") == null) {
+						console.log("Acceso alta denegado");
+						alert("Se requiere ser un agente registrado");
+						window.location.href = "index.html";
+						
+					} else {
+						console.log("Acceso alta permitido");
+						window.location.href = "altaPiso.html";
+					}
 			}
 		});
 	}
