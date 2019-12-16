@@ -90,7 +90,7 @@ public class SimpleResetService implements ResetService {
 			piso1.setPrecio(10000.00);
 			piso1.setDireccion("Calle Cabrales");
 			piso1.setCiudad("Gijón");
-			piso1.setAño(2005);
+			piso1.setAnyo(2005);
 			piso1.setEstado(2);
 			
 			Piso piso2 = new Piso();
@@ -98,7 +98,7 @@ public class SimpleResetService implements ResetService {
 			piso2.setPrecio(20000.00);
 			piso2.setDireccion("Calle Brasil");
 			piso2.setCiudad("Gijón");
-			piso2.setAño(2015);
+			piso2.setAnyo(2015);
 			piso2.setEstado(3);
 			
 			Piso piso3 = new Piso();
@@ -106,7 +106,7 @@ public class SimpleResetService implements ResetService {
 			piso3.setPrecio(15000.00);
 			piso3.setDireccion("Calle Uría");
 			piso3.setCiudad("Oviedo");
-			piso3.setAño(2010);
+			piso3.setAnyo(2010);
 			piso3.setEstado(4);
 			
 			Piso piso4 = new Piso();
@@ -114,7 +114,7 @@ public class SimpleResetService implements ResetService {
 			piso4.setPrecio(30000.00);
 			piso4.setDireccion("Calle Campoamor");
 			piso4.setCiudad("Oviedo");
-			piso4.setAño(2019);
+			piso4.setAnyo(2019);
 			piso4.setEstado(5);			
 			
 			servicioP.savePiso(piso1);

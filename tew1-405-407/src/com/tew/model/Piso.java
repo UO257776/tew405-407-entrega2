@@ -13,20 +13,20 @@ public class Piso implements Serializable {
 	private double precio;
 	private String direccion;
 	private String ciudad;
-	private int año;
+	private int anyo;
 	private int estado;
 	private String foto;
 		
 	public Piso() {
 	}
 	
-	public Piso(long id, long idagente, double precio, String direccion, String ciudad, int año, int estado, String foto) {
+	public Piso(long id, long idagente, double precio, String direccion, String ciudad, int anyo, int estado, String foto) {
 		this.id = id;
 		this.idagente = idagente;
 		this.precio = precio;
 		this.direccion = direccion;
 		this.ciudad = ciudad;
-		this.año = año;
+		this.anyo = anyo;
 		this.estado = estado;
 		this.foto = foto;
 	}
@@ -67,11 +67,11 @@ public class Piso implements Serializable {
 		this.ciudad = ciudad;
 	}
 	@XmlElement
-	public int getAño() {
-		return año;
+	public int getAnyo() {
+		return anyo;
 	}
-	public void setAño(int año) {
-		this.año = año;
+	public void setAnyo(int anyo) {
+		this.anyo = anyo;
 	}
 	@XmlElement
 	public int getEstado() {

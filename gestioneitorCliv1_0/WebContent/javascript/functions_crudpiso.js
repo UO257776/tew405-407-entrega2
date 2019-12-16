@@ -58,15 +58,15 @@ function View() {
 		$("#tblList").html(
 				"<thead>" + "<tr>" + "<th>ID</th>" + "<th>Precio</th>"
 						+ "<th>Direccion</th>" + "<th>Ciudad</th>"
-						+ "<th>Estado</th>" + "</tr>" + "</thead>" + "<tbody>"
-						+ "</tbody>");
+						+ "<th>Anyo</th>" + "<th>Estado</th>" + "</tr>"
+						+ "</thead>" + "<tbody>" + "</tbody>");
 		for ( var i in lista) {
 			var piso = lista[i];
 			$("#tblList tbody").append(
 					"<tr> <td>" + piso.id + "</td>" + "<td>" + piso.precio
 							+ "</td>" + "<td>" + piso.direccion + "</td>"
 							+ "<td>" + piso.ciudad + "</td>" + "<td>"
-							+ piso.estado + "</td></tr>");
+							+ piso.anyo + "<td>" + piso.estado + "</td></tr>");
 		}
 	}
 
@@ -98,9 +98,10 @@ function Controller(varmodel, varview) {
 		this.model.load();
 		// Repintamos la lista de alumnos.
 		this.view.list(this.model.tbPisos);
-		//Vinculamos el controlador para movimiento de ratón sobre fila de tabla
+		// Vinculamos el controlador para movimiento de ratón sobre fila de
+		// tabla
 		this.bindHover();
-		
+
 		// Controlador del botón de filtrado por ciudad
 		$("#frmFiltrado").on("submit", function(event) {
 			that.model.load();
@@ -155,67 +156,119 @@ function Controller(varmodel, varview) {
 			that.view.list(that.model.tbPisos);
 			that.bindHover();
 		});
-		
+
 		$("#btnReset").on("click", function(event) {
 			var pisos = that.model.tbPisos;
 			var i = pisos.length;
 			i--;
-			for (i ; i >= 0; i--) {
+			for (i; i >= 0; i--) {
 				that.model.remove(pisos[i].id)
 			}
 			var agentes = AgentesServicesRs.getAgentes();
 			var i = agentes.length;
 			i--;
-			for ( i ; i >= 0; i--) {
+			for (i; i >= 0; i--) {
 				console.log(agentes[0].id)
 				AgentesServicesRs.deleteAgente({
 					id : agentes[i].id
 				});
 			}
-			
+
 			var agente1 = new Object();
 			agente1.login = "agente1";
 			agente1.passwd = "clave1";
-			
+
 			var agente2 = new Object();
 			agente2.login = "agente2";
 			agente2.passwd = "clave2";
-			
+
 			var stringAgente1 = JSON.stringify(agente1);
 			var stringAgente2 = JSON.stringify(agente2);
-			
+
 			AgentesServicesRs.saveAgente({
 				$entity : stringAgente1,
 				$contentType : "application/json"
 			});
-			
+
 			AgentesServicesRs.saveAgente({
 				$entity : stringAgente2,
 				$contentType : "application/json"
 			});
-			
+
 			that.model.load();
 			that.view.list(that.model.tbPisos);
 			that.bindHover();
 		});
 
+		// Controlador para importar pisos
+		$("#frmImport")
+				.on(
+						"submit",
+						function(event) {
+							var URL = $("#urlImport").val();
+
+							$
+									.ajax({
+										url : URL,
+										type : "GET",
+										dataType : "json",
+										success : function(pisos) {
+											tbPisos = that.model.tbPisos;
+											alert("Respuesta recibida con exito. Espera unos instantes mientras se cargan los datos...");
+
+											for ( var i in pisos) {
+												var piso = JSON
+														.stringify({
+															id : pisos[i].ID,
+															idagente : 17, // PROVISIONAL,
+																			// CAMBIAR!!!!
+															precio : pisos[i].Precio,
+															direccion : pisos[i].Direccion,
+															ciudad : pisos[i].Ciudad,
+															anyo : pisos[i].Anyo,
+															estado : pisos[i].Estado,
+															foto : pisos[i].Foto
+																	.substr(1)
+														});
+												piso = JSON.parse(piso);
+												var existe = false;
+												for ( var i in tbPisos) {
+													if (tbPisos[i].id == piso.id)
+														existe = true;
+												}
+												if (existe)
+													that.model.edit(piso);
+												else
+													that.model.add(piso);
+
+											}
+											that.model.load();
+											that.view.list(that.model.tbPisos);
+											that.bindHover();
+										}
+									});
+						});
+
 	}
-	
+
 	this.bindHover = function() {
-		//Controlador del ratón para mostrar fotos de pisos
-		//Tiene su propia función porque hay que llamarlo después de pulsar cada botón
-		$("tr").not(':first').hover(function() {
-			var nombreFoto = that.model.find(that.view.getIdPiso($(this))).foto;
-			var foto = new Image();
-			foto.src = nombreFoto
-			var canvas = $("#foto");
-			var ctx = canvas[0].getContext("2d");
-			ctx.drawImage(foto, 0, 0, 250, 250);
-			
-			$(this).css("background", "grey");
-		}, function() {
-			$(this).css("background", "");
-		});
+		// Controlador del ratón para mostrar fotos de pisos
+		// Tiene su propia función porque hay que llamarlo después de pulsar
+		// cada botón
+		$("tr").hover(
+				function() {
+					var nombreFoto = that.model.find(that.view
+							.getIdPiso($(this))).foto;
+					var foto = new Image();
+					foto.src = nombreFoto;
+					var canvas = $("#foto");
+					var ctx = canvas[0].getContext("2d");
+					ctx.drawImage(foto, 0, 0, 250, 250);
+
+					$(this).css("background", "grey");
+				}, function() {
+					$(this).css("background", "");
+				});
 	}
 };
 
