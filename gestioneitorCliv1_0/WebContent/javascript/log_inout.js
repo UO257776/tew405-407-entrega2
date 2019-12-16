@@ -4,7 +4,7 @@ function Model() {
 
 	this.load = function() {
 		if(typeof(Storage) !== "undefined") {
-			if(sesssionStorage.getItem("user") == null) {
+			if(sessionStorage.getItem("user") == null) {
 				this.getElementById("logout-link").style.visibility = "hidden";
 			}
 			else {

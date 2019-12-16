@@ -53,7 +53,9 @@ function Controller(varmodel, varview) {
 					if(typeof(Storage) !== "undefined") {
 						sessionStorage.setItem("user", user);
 						sessionStorage.setItem("passwd", password);
+						window.location.href = "index.html";
 					}
+					
 					
 				}
 				i++;
