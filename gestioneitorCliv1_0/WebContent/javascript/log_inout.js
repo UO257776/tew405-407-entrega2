@@ -5,10 +5,14 @@ function Model() {
 	this.load = function() {
 		if(typeof(Storage) !== "undefined") {
 			if(sessionStorage.getItem("user") == null) {
+				console.log("No user");
+				this.getElementById("login-link").style.visibility = "visible";
 				this.getElementById("logout-link").style.visibility = "hidden";
 			}
 			else {
+				console.log("With user");
 				this.getElementById("login-link").style.visibility = "hidden";
+				this.getElementById("logout-link").style.visibility = "visible";
 			}
 		}
 	}
@@ -35,7 +39,7 @@ function Controller(varmodel, varview) {
 
 		$("#logout-link").click(function(event) {	
 			if(typeof(Storage) !== "undefined") {
-					sesssionStorage.clear();
+					sessionStorage.clear();
 					console.log("Datos de usuario borrados del navegador");
 			}
 		});
