@@ -51,14 +51,14 @@ public class LoginFilter implements Filter {
 
 	    session = req.getSession(false);
 	    
-	    if (session == null || session.getAttribute("user") == null) {
-	    	String loginForm = config.getInitParameter("LoginParam");
+	    //if (session == null || session.getAttribute("user") == null) {
+	    //	String loginForm = config.getInitParameter("LoginParam");
 		    // Si no hay login, redirección al formulario de login
-	    	res.sendRedirect(req.getContextPath() + loginForm);
-	    } else {
+	    	//res.sendRedirect(req.getContextPath() + loginForm);
+	    //} else {
 			// pass the request along the filter chain
-			chain.doFilter(request, response);
-	    }
+			//chain.doFilter(request, response);
+	    //}
 	    
 	    //String usuario = request.getParameter("user");
     	//String contra = request.getParameter("password");
