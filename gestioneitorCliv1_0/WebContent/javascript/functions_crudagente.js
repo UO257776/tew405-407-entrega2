@@ -56,18 +56,20 @@ function View() {
 	this.list = function(lista, idAgente) {
 		$("#tblList").html("");
 		$("#tblList").html(
-				"<thead>" + "<tr>" + "<th>ID</th>" + "<th>ID Agente</th>" +"<th>Precio</th>"
-						+ "<th>Direccion</th>" + "<th>Ciudad</th>"
-						+ "<th>Estado</th>" + "</tr>" + "</thead>" + "<tbody>"
-						+ "</tbody>");
+				"<thead>" + "<tr>" + "<th>ID</th>" + "<th>ID Agente</th>"
+						+ "<th>Precio</th>" + "<th>Direccion</th>"
+						+ "<th>Ciudad</th>" + "<th>Estado</th>" + "</tr>"
+						+ "</thead>" + "<tbody>" + "</tbody>");
 		for ( var i in lista) {
 			var piso = lista[i];
-			if(idAgente == piso.id) {
-			$("#tblList tbody").append(
-					"<tr> <td>" + piso.id + "</td>" + "<td>" + piso.idagente + "</td>" + "<td>" + piso.precio
-							+ "</td>" + "<td>" + piso.direccion + "</td>"
-							+ "<td>" + piso.ciudad + "</td>" + "<td>"
-							+ piso.estado + "</td></tr>");
+			if (idAgente == piso.idagente) {
+				$("#tblList tbody").append(
+						"<tr> <td>" + piso.id + "</td>" + "<td>"
+								+ piso.idagente + "</td>" + "<td>"
+								+ piso.precio + "</td>" + "<td>"
+								+ piso.direccion + "</td>" + "<td>"
+								+ piso.ciudad + "</td>" + "<td>" + piso.estado
+								+ "</td></tr>");
 			}
 		}
 	}
@@ -99,83 +101,145 @@ function Controller(varmodel, varview) {
 		// Cargamos la lista de alumnos del servicio
 		this.model.load();
 		var lista = that.model.tbPisos;
-		var usuario = sessionStore.getItem("user");
-		var idAgente;
-		var i = 0;
-		while (i < lista.length && lista[i].login != usuario) {
-			i++;
-		}
-		if (lista[i].login == usuario) {
-			idAgente = lista[i].id;
-		}
-		
+		var usuario = sessionStorage.getItem("user");
+		var idAgente = parseInt(sessionStorage.getItem("id"));
+		console.log(idAgente);
+
 		// Repintamos la lista de alumnos.
 		this.view.list(this.model.tbPisos, idAgente);
-		//Vinculamos el controlador para movimiento de ratón sobre fila de tabla
+		// Vinculamos el controlador para movimiento de ratón sobre fila de
+		// tabla
 		this.bindHover();
-		
-	
+
+		$("#frmImport")
+				.on(
+						"submit",
+						function(event) {
+							var URL = $("#urlImport").val();
+
+							$
+									.ajax({
+										url : URL,
+										type : "GET",
+										dataType : "json",
+										success : function(pisos) {
+											tbPisos = that.model.tbPisos;
+											alert("Respuesta recibida con exito. Espera unos instantes mientras se cargan los datos...");
+
+											for ( var i in pisos) {
+												var piso = JSON
+														.stringify({
+															id : pisos[i].ID,
+															idagente : parseInt(sessionStorage.getItem("id")),
+															precio : pisos[i].Precio,
+															direccion : pisos[i].Direccion,
+															ciudad : pisos[i].Ciudad,
+															anyo : pisos[i].Anyo,
+															estado : pisos[i].Estado,
+															foto : pisos[i].Foto
+																	.substr(1)
+														});
+												piso = JSON.parse(piso);
+												var existe = false;
+												for ( var i in tbPisos) {
+													if (tbPisos[i].id == piso.id)
+														existe = true;
+												}
+												if (existe)
+													that.model.edit(piso);
+												else
+													that.model.add(piso);
+
+											}
+											that.model.load();
+											that.view.list(that.model.tbPisos, parseInt(sessionStorage.getItem("id")));
+											that.bindHover();
+										}
+									});
+						});
+
+		$("#btnReset").on("click", function(event) {
+			var pisos = that.model.tbPisos;
+			var i = pisos.length;
+			i--;
+			for (i; i >= 0; i--) {
+				that.model.remove(pisos[i].id)
+			}
+			var agentes = AgentesServicesRs.getAgentes();
+			var i = agentes.length;
+			i--;
+			for (i; i >= 0; i--) {
+				AgentesServicesRs.deleteAgente({
+					id : agentes[i].id
+				});
+			}
+
+			var agente1 = new Object();
+			agente1.login = "agente1";
+			agente1.passwd = "clave1";
+
+			var agente2 = new Object();
+			agente2.login = "agente2";
+			agente2.passwd = "clave2";
+
+			var stringAgente1 = JSON.stringify(agente1);
+			var stringAgente2 = JSON.stringify(agente2);
+
+			AgentesServicesRs.saveAgente({
+				$entity : stringAgente1,
+				$contentType : "application/json"
+			});
+
+			AgentesServicesRs.saveAgente({
+				$entity : stringAgente2,
+				$contentType : "application/json"
+			});
+			
+			var user = sessionStorage.getItem("user");
+			var passwd = sessionStorage.getItem("passwd");
+			agentes = AgentesServicesRs.getAgentes();
+			var id;
+			for (i in agentes) {
+				if (agentes[i].user = user) id = agentes[i].id;
+			}
+			
+			console.log(user + " " + passwd + " " + id);
+			
+			if (typeof (Storage) !== "undefined") {
+				sessionStorage.clear();
+				console.log("Datos de usuario borrados del navegador");
+			}
+
+			sessionStorage.setItem("user", user);
+			sessionStorage.setItem("passwd", passwd);
+			sessionStorage.setItem("id", id);
+			
+			that.model.load();
+			that.view.list(that.model.tbPisos, parseInt(sessionStorage.getItem("id")));
+			that.bindHover();
+		});
+
 	}
 
-	$("#btnReset").on("click", function(event) {
-		var pisos = that.model.tbPisos;
-		var i = pisos.length;
-		i--;
-		for (i ; i >= 0; i--) {
-			that.model.remove(pisos[i].id)
-		}
-		var agentes = AgentesServicesRs.getAgentes();
-		var i = agentes.length;
-		i--;
-		for ( i ; i >= 0; i--) {
-			console.log(agentes[0].id)
-			AgentesServicesRs.deleteAgente({
-				id : agentes[i].id
-			});
-		}
-		
-		var agente1 = new Object();
-		agente1.login = "agente1";
-		agente1.passwd = "clave1";
-		
-		var agente2 = new Object();
-		agente2.login = "agente2";
-		agente2.passwd = "clave2";
-		
-		var stringAgente1 = JSON.stringify(agente1);
-		var stringAgente2 = JSON.stringify(agente2);
-		
-		AgentesServicesRs.saveAgente({
-			$entity : stringAgente1,
-			$contentType : "application/json"
-		});
-		
-		AgentesServicesRs.saveAgente({
-			$entity : stringAgente2,
-			$contentType : "application/json"
-		});
-		
-		that.model.load();
-		that.view.list(that.model.tbPisos);
-		that.bindHover();
-	});
-	
-this.bindHover = function() {
-	//Controlador del ratón para mostrar fotos de pisos
-	//Tiene su propia función porque hay que llamarlo después de pulsar cada botón
-	$("tr").not(':first').hover(function() {
-		var nombreFoto = that.model.find(that.view.getIdPiso($(this))).foto;
-		var foto = new Image();
-		foto.src = nombreFoto
-		var canvas = $("#foto");
-		var ctx = canvas[0].getContext("2d");
-		ctx.drawImage(foto, 0, 0, 250, 250);
-		
-		$(this).css("background", "grey");
-	}, function() {
-		$(this).css("background", "");
-	});
-}
+	this.bindHover = function() {
+		// Controlador del ratón para mostrar fotos de pisos
+		// Tiene su propia función porque hay que llamarlo después de pulsar
+		// cada botón
+		$("tr").not(':first').hover(
+				function() {
+					var nombreFoto = that.model.find(that.view
+							.getIdPiso($(this))).foto;
+					var foto = new Image();
+					foto.src = nombreFoto
+					var canvas = $("#foto");
+					var ctx = canvas[0].getContext("2d");
+					ctx.drawImage(foto, 0, 0, 250, 250);
+
+					$(this).css("background", "grey");
+				}, function() {
+					$(this).css("background", "");
+				});
+	}
 };
 
 $(function() {

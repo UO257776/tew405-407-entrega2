@@ -59,6 +59,7 @@ function Controller(varmodel, varview) {
 					}
 			}
 		});
+		
 	}
 }
 
