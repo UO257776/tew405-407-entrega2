@@ -148,6 +148,37 @@ function Controller(varmodel, varview) {
 			
 		});
 
+
+		$("#frmDescuento").on("submit", function(event) {
+			var pisos = that.model.tbPisos;
+			var descuento = $("#inputDescuento").val();
+			if(descuento < 0 || descuento > 100) {
+				alert("El descuento debe estar entre 0 y 100");
+				return false;
+			}
+			var i;
+			alert("Respuesta recibida con exito. Espera unos instantes mientras se cargan los datos...");
+			for (i in pisos) {
+				/*console.log(pisos[i].direccion);
+				console.log("Precio: ");
+				console.log(pisos[i].precio);
+				console.log("Descuento: ");
+				console.log(descuento);*/
+				pisos[i].precio = pisos[i].precio - descuento*pisos[i].precio/100;
+				//Evitamos que el descuento cause un precio negativo
+				if(pisos[i].precio < 0)
+					pisos[i].precio = 0;
+				/*console.log("Total: ");
+				console.log(pisos[i].precio);*/
+				PisosServicesRs.updatePiso(
+				{$entity : pisos[i],
+				$contentType : "application/json"
+				});
+			}
+			that.view.list(that.model.tbPisos, idAgente);
+			that.bindHover();
+		});
+		
 		$("#frmImport")
 				.on(
 						"submit",
