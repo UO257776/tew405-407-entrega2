@@ -110,6 +110,43 @@ function Controller(varmodel, varview) {
 		// Vinculamos el controlador para movimiento de ratón sobre fila de
 		// tabla
 		this.bindHover();
+		
+		//Controlador asociado al filtro por estados
+		$("#frmFiltroEstados").on("submit", function(event) { 
+			that.model.load();
+			var listaEstados = [];
+			var pisos = that.model.tbPisos;
+			if($("#estado1").is(':checked')) listaEstados.push(1);
+			if($("#estado2").is(':checked')) listaEstados.push(2);
+			if($("#estado3").is(':checked')) listaEstados.push(3);
+			if($("#estado4").is(':checked')) listaEstados.push(4);
+			if($("#estado5").is(':checked')) listaEstados.push(5);
+			console.log(listaEstados);
+			
+			var selected;
+			var i = pisos.length;
+			i--;
+			for (i; i>= 0; i--) {
+				selected = false;
+				//console.log("Estado del piso: " + pisos[i].estado);
+				var j = 0;
+				//console.log(listaEstados)
+				for (j in listaEstados) {
+					//console.log("Resultado de la comprobacion de " + pisos[i].estado + " Igual a " + listaEstados[j] + " : " + (pisos[i].estado == listaEstados[j]));
+					if (pisos[i].estado == listaEstados[j]) {
+						selected = true;
+					}
+				}
+				//console.log("Para el piso " + i + " " + selected);
+				if (!selected) pisos.splice(i, 1);
+				//console.log("--------")
+			}
+			
+			that.model.tbPisos = pisos;
+			that.view.list(that.model.tbPisos, idAgente);
+			that.bindHover();
+			
+		});
 
 		$("#frmImport")
 				.on(
